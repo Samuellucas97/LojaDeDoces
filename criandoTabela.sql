@@ -1,66 +1,74 @@
 
-/**  - Removendo tabelas -
-	DROP TABLE Cliente, Telefone, Cargo, Estoque, Funcionario, Fabricante, Produto, Solicitacao;
- */   
-/**
+/**  - Removendo tabelas - */
+/** DROP TABLE Cliente, Telefone, Cargo, Estoque, Funcionario, Fabricante, Produto, Solicitacao;
+  */
+
+/** Criando tabela Cliente */
 CREATE TABLE Cliente(
 	idCliente SERIAL NOT NULL UNIQUE,
-	nome VARCHAR NOT NULL,
+	nome VARCHAR,
 	PRIMARY KEY(idCliente)
 );
 
+/** Criando tabela Telefone */
 CREATE TABLE Telefone(
 	idTelefone SERIAL NOT NULL UNIQUE,
-    numero VARCHAR NOT NULL,
-    idCliente INTEGER NOT NULL REFERENCES Cliente,
+    numero VARCHAR,
+    idCliente INTEGER REFERENCES Cliente,
     PRIMARY KEY(idTelefone)
 );
 
+/** Criando tabela Cargo */
 CREATE TABLE Cargo(
 	idCargo SERIAL NOT NULL UNIQUE,
-	nomeCargo VARCHAR NOT NULL,
-	salario FLOAT NOT NULL,
+	nomeCargo VARCHAR,
+	salario FLOAT,
 	PRIMARY KEY (idCargo)
 );
 
-CREATE TABLE Estoque(
-	idEstoque SERIAL NOT NULL UNIQUE,
-	quantidade INTEGER NOT NULL,
-	PRIMARY KEY(idEstoque)
-);
-
+/** Criando tabela Funcionario */
 CREATE TABLE Funcionario(
 	idFuncionario SERIAL NOT NULL UNIQUE,
-	nomeFuncionario VARCHAR NOT NULL,
-	cpf VARCHAR NOT NULL UNIQUE,
-	dataDeNascimento DATE NOT NULL,
-	idCargo INTEGER NOT NULL REFERENCES Cargo,
+	nomeFuncionario VARCHAR,
+	cpf VARCHAR,
+	dataDeNascimento DATE,
+	idCargo INTEGER REFERENCES Cargo,
 	PRIMARY KEY(idFuncionario)
 );
 
+/** Criando tabela Fabricante */
 CREATE TABLE Fabricante(
 	idFabricante SERIAL NOT NULL UNIQUE,
-	nomeFabricante VARCHAR NOT NULL,
+	nomeFabricante VARCHAR,
 	PRIMARY KEY(idFabricante)
 );
 
+/** Criando tabela Produto */
 CREATE TABLE Produto(
 	idProduto SERIAL NOT NULL UNIQUE,
-	nomeProduto VARCHAR NOT NULL,
-	preco FLOAT NOT NULL,
-	dataDeValidade DATE NOT NULL,
-	idEstoque INTEGER NOT NULL REFERENCES Estoque,
-	idFabricante INTEGER NOT NULL REFERENCES Estoque,
+	nomeProduto VARCHAR,
+	preco FLOAT,
+	dataDeValidade DATE,
+	idFabricante INTEGER REFERENCES Fabricante,
     PRIMARY KEY(idProduto)
 );
 
+/** Criando tabela Solicitacao */
 CREATE TABLE Solicitacao(
 	idSolicitacao SERIAL NOT NULL UNIQUE,
-	descricao VARCHAR NOT NULL,
-    quantidade INTEGER NOT NULL,
-	idFuncionario INTEGER NOT NULL REFERENCES Funcionario,
-	idCliente INTEGER NOT NULL REFERENCES Cliente,
-	idEstoque INTEGER NOT NULL REFERENCES Estoque,	
+	descricao VARCHAR,
+    quantidade INTEGER,
+	idFuncionario INTEGER REFERENCES Funcionario,
+	idCliente INTEGER REFERENCES Cliente,
+	idProduto INTEGER REFERENCES Produto,	
 	PRIMARY KEY(idSolicitacao)
-);   
-*/
+);  
+
+/** Criando tabela Estoque */
+CREATE TABLE Estoque(
+	idEstoque SERIAL NOT NULL UNIQUE,
+	quantidade INTEGER,
+	idProduto INTEGER REFERENCES Produto,
+	PRIMARY KEY(idEstoque)
+);
+
