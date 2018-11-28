@@ -1,4 +1,14 @@
 
+DROP TRIGGER CASCADE cargo_gatilho ON Cargo, 
+						cliente_gatilho ON Cliente, 
+                        fabricante_gatilho ON Fabricante, 
+                        funcionario_gatilho ON Funcionario, 
+                        produto_gatilho ON Produto, 
+                        solicitacao_gatilho ON Solicitacao,
+                        telefone_gatilho ON Telefone;
+
+
+
 /** Gatilho da tabela Cliente */ 
 CREATE OR REPLACE FUNCTION cliente_gatilho() RETURNS trigger AS $cliente_gatilho$
 BEGIN
@@ -202,22 +212,43 @@ FOR EACH ROW  EXECUTE PROCEDURE produto_gatilho();
  /** Gatilho da tabela Solicitacao */
 CREATE OR REPLACE FUNCTION solicitacao_gatilho() RETURNS trigger AS $solicitacao_gatilho$
 BEGIN
-	/** Verificando se o campo descricao da inserção ou atualização é nulo. Daí, se for, impede-se a ação. */
-	IF NEW.descricao IS NULL THEN
-       RAISE EXCEPTION 'CONTEUDO NULO NO CAMPO DESCRICAO DA TABELA SOLICITACAO';
-    END IF;
-	
-	/** Verificando se o campo quantidade da inserção ou atualização é nulo. Daí, se for, impede-se a ação. */
-	IF NEW.quantidade IS NULL THEN 
-		RAISE EXCEPTION 'CONTEUDO NULO NO CAMPO QUANTIDADE DA TABELA SOLICITACAO';
-	END IF;
-	 
-    /** Verificando se o campo preco da inserção ou atualização é negativo ou igual a 0. Daí, se for, impede-se a ação. */	
-	IF NEW.quantidade <= 0.0 THEN 
-    	RAISE EXCEPTION 'O CAMPO QUANTIDADE DA TABELA SOLICITACAO NÃO PODE SER NEGATIVO';
-  	END IF;
+	IF( TG_OP = 'INSERT' OR TG_OP = 'UPDATE' ) THEN 
+        /** Verificando se o campo descricao da inserção ou atualização é nulo. Daí, se for, impede-se a ação. */
+        IF NEW.descricao IS NULL THEN
+           RAISE EXCEPTION 'CONTEUDO NULO NO CAMPO DESCRICAO DA TABELA SOLICITACAO';
+        END IF;
+
+        /** Verificando se o campo quantidade da inserção ou atualização é nulo. Daí, se for, impede-se a ação. */
+        IF NEW.quantidade IS NULL THEN 
+            RAISE EXCEPTION 'CONTEUDO NULO NO CAMPO QUANTIDADE DA TABELA SOLICITACAO';
+        END IF;
+
+        /** Verificando se o campo preco da inserção ou atualização é negativo ou igual a 0. Daí, se for, impede-se a ação. */	
+        IF NEW.quantidade <= 0.0 THEN 
+            RAISE EXCEPTION 'O CAMPO QUANTIDADE DA TABELA SOLICITACAO NÃO PODE SER NEGATIVO';
+        END IF;
+
+        IF ( NEW.quantidade > (SELECT quantidade FROM Estoque WHERE Estoque.idProduto = NEW.idProduto) ) THEN
+            RAISE EXCEPTION 'ESTOQUE INSUFICIENTE!';
+        END IF;    
+		
+        IF( TG_OP = 'INSERT') THEN 
+        	UPDATE Estoque
+            SET quantidade = Estoque.quantidade - NEW.quantidade WHERE Estoque.idProduto = NEW.idProduto;
+    		RETURN NEW;
+        END IF;
+        
+        IF( TG_OP = 'UPDATE ') THEN
+			UPDATE Estoque
+            SET quantidade = quantidade + OLD.quantidade - NEW.quantidade WHERE Estoque.idProduto = NEW.idProduto;
+            END IF;
     
- 	RETURN NEW;
+	END IF;
+    -- TRATA-SE DE UMA REMOÇÃO 
+    IF ( TG_OP = 'DELETE') THEN 
+    	UPDATE Estoque
+        SET quantidade = quantidade + OLD.quantidade WHERE Estoque.idProduto = OLD.idProduto;
+    END IF;	 		
 END;
 $solicitacao_gatilho$ LANGUAGE plpgsql;
 
@@ -225,12 +256,4 @@ CREATE TRIGGER  solicitacao_gatilho BEFORE INSERT OR UPDATE on Solicitacao
 FOR EACH ROW  EXECUTE PROCEDURE solicitacao_gatilho(); 
 
 
-
-/** Testando a funcionalidade do gatilho  
- *	
- * Tentando adicionar com null
- *
- * Tentando adicionar tupla com preço negativo na tabela Funcionario
- *
- */
 
