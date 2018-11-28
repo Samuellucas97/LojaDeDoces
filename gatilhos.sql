@@ -197,3 +197,40 @@ FOR EACH ROW  EXECUTE PROCEDURE produto_gatilho();
  * Tentando adicionar tupla com preço negativo na tabela Funcionario
  * INSERT INTO Produto(nomeProduto, preco, dataDeValidade, idFabricante) values ('COOKIES', -5.5, '2019-03-26', 4 );
  */
+
+
+ /** Gatilho da tabela Solicitacao */
+CREATE OR REPLACE FUNCTION solicitacao_gatilho() RETURNS trigger AS $solicitacao_gatilho$
+BEGIN
+	/** Verificando se o campo descricao da inserção ou atualização é nulo. Daí, se for, impede-se a ação. */
+	IF NEW.descricao IS NULL THEN
+       RAISE EXCEPTION 'CONTEUDO NULO NO CAMPO DESCRICAO DA TABELA SOLICITACAO';
+    END IF;
+	
+	/** Verificando se o campo quantidade da inserção ou atualização é nulo. Daí, se for, impede-se a ação. */
+	IF NEW.quantidade IS NULL THEN 
+		RAISE EXCEPTION 'CONTEUDO NULO NO CAMPO QUANTIDADE DA TABELA SOLICITACAO';
+	END IF;
+	 
+    /** Verificando se o campo preco da inserção ou atualização é negativo ou igual a 0. Daí, se for, impede-se a ação. */	
+	IF NEW.quantidade <= 0.0 THEN 
+    	RAISE EXCEPTION 'O CAMPO QUANTIDADE DA TABELA SOLICITACAO NÃO PODE SER NEGATIVO';
+  	END IF;
+    
+ 	RETURN NEW;
+END;
+$solicitacao_gatilho$ LANGUAGE plpgsql;
+
+CREATE TRIGGER  solicitacao_gatilho BEFORE INSERT OR UPDATE on Solicitacao
+FOR EACH ROW  EXECUTE PROCEDURE solicitacao_gatilho(); 
+
+
+
+/** Testando a funcionalidade do gatilho  
+ *	
+ * Tentando adicionar com null
+ *
+ * Tentando adicionar tupla com preço negativo na tabela Funcionario
+ *
+ */
+

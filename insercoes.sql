@@ -56,3 +56,7 @@ INSERT INTO Estoque(quantidade, idProduto) values
 (3, 1),
 (1, 3),
 (2, 2);
+
+/** Inserindo solicitação */
+--INSERT INTO Solicitacao( descricao, quantidade, idFuncionario, idCliente, idProduto ) values
+--('COMPRANDO UM CHOCOTTONE', );
