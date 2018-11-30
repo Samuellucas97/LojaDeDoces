@@ -1,6 +1,13 @@
 # Loja de Doces  
-Neste repositório encontram o tralbalho final da disciplina de ***Banco de Dados*** no qual há a modelagem em banco de em de uma situação.
 
+## Introdução
+
+Neste repositório encontra-se o trabalho final da disciplina de _Banco de Dados_ no qual há a modelagem em banco de uma ***Loja de Doces***.
+
+## Diagrama de Entidade-Relacionamento (DER)
+
+
+![](/img/DiagramaEntidadeRelacionamento(DER)-LojaDeDoces.png)
 
 
 
