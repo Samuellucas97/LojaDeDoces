@@ -1,12 +1,11 @@
-
-DROP TRIGGER CASCADE cargo_gatilho ON Cargo, 
-						cliente_gatilho ON Cliente, 
-                        fabricante_gatilho ON Fabricante, 
-                        funcionario_gatilho ON Funcionario, 
-                        produto_gatilho ON Produto, 
-                        solicitacao_gatilho ON Solicitacao,
-                        telefone_gatilho ON Telefone;
-
+-- Removendo os gatilhos
+DROP TRIGGER IF EXISTS cargo_gatilho ON Cargo CASCADE; 
+DROP TRIGGER IF EXISTS cliente_gatilho ON Cliente CASCADE; 
+DROP TRIGGER IF EXISTS fabricante_gatilho ON Fabricante CASCADE; 
+DROP TRIGGER IF EXISTS funcionario_gatilho ON Funcionario CASCADE; 
+DROP TRIGGER IF EXISTS produto_gatilho ON Produto CASCADE; 
+DROP TRIGGER IF EXISTS solicitacao_gatilho ON Solicitacao CASCADE;
+DROP TRIGGER IF EXISTS telefone_gatilho ON Telefone CASCADE;
 
 
 /** Gatilho da tabela Cliente */ 
