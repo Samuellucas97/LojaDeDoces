@@ -4,9 +4,10 @@
  * @version 0.0.1
  */
 
-/**    --:>  SELECTS RELACIONADOS AO CLIENTE    */
+/**    --:>  VISÕES RELACIONADOS AO CLIENTE    */
 
 -- Tabela com nome de cliente com os seus telefones
+CREATE VIEW vw_Cliente_Telefones AS
 SELECT nomeCliente, numeroTelefone FROM Cliente INNER JOIN Telefone ON Cliente.idCliente = Telefone.idCliente 
 GROUP BY nomeCliente;
 
@@ -26,9 +27,10 @@ GROUP BY nomeCliente
 ORDER BY quantidade DESC;
 */
 
-/**    --:>  SELECTS RELACIONADOS AO FUNCIONÁRIO    */
+/**    --:>   VISÕES RELACIONADOS AO FUNCIONÁRIO    */
 
 -- Tabela com nome de cargos e quantidade de funcionários relacionados a esse cargo
+CREATE VIEW vw_Cargo_Funcionario AS
 SELECT nomeCargo, COUNT(idFuncionario) FROM Cargo INNER JOIN Funcionario ON Cargo.idCargo = Funcionario.idCargo
 GROUP BY nomeCargo
 ORDER BY COUNT(idFuncionario) DESC; 
