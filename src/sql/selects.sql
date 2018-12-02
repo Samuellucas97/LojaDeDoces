@@ -27,6 +27,12 @@ GROUP BY nomeCliente
 ORDER BY quantidade DESC;
 */
 
+/**    --:>   VISÕES RELACIONADAS AO FABRICANTE     */
+
+CREATE VIEW vw_Produto_Fabricante AS
+SELECT nomeFabricante, COUNT(idProduto) FROM Produto INNER JOIN Produto.idFabricante = Fabricante.idFabricante
+GROUP BY nomeFabricante;
+
 /**    --:>   VISÕES RELACIONADOS AO FUNCIONÁRIO    */
 
 -- Tabela com nome de cargos e quantidade de funcionários relacionados a esse cargo
