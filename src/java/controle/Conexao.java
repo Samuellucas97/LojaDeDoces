@@ -23,7 +23,7 @@ public class Conexao {
 			conexao = DriverManager.getConnection(url, user, pass);
 			System.out.println("Banco conectado!!!!");
 		} catch (SQLException e) {
-			System.out.println("Erro de conex„o!!!!");
+			System.out.println("Erro de conex√£o!!!!");
 		}
 		return conexao;
 	}			

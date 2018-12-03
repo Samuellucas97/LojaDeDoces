@@ -24,7 +24,6 @@ public class ClienteDAO {
 		String sql = "Insert into cliente values(default, ?,?)";
 		PreparedStatement pst = conn.prepareStatement(sql);
 		pst.setString(1, cliente.getNome());
-		pst.setString(2, cliente.getCpf());
 		pst.execute();
 		conn.commit();
 		pst.close();
@@ -35,7 +34,6 @@ public class ClienteDAO {
 		String sql = "update cliente set nome = ? where cpf = ?";
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		pstmt.setString(1, cliente.getNome());
-		pstmt.setString(2, cliente.getCpf());
 		pstmt.execute();
 		conn.commit();
 		pstmt.close();
@@ -44,12 +42,11 @@ public class ClienteDAO {
 	
 	public void deletarCliente(Cliente cliente) throws SQLException{
 		String sql = "delete from cliente where cpf = ?";
-		PreparedStatement pstmt = conn.prepareStatement(sql); 
-		pstmt.setString(1, cliente.getCpf());
+		PreparedStatement pstmt = conn.prepareStatement(sql);
 		pstmt.execute();
 		conn.commit();
 		pstmt.close();
-		System.out.println("Cliente " + cliente.getCpf()+ " deletado(a).");
+		System.out.println("Cliente " + cliente.getNome()+ " deletado(a).");
 	}
 	
 	public List<Cliente> listar() throws SQLException {
@@ -63,7 +60,6 @@ public class ClienteDAO {
 			Cliente c = new Cliente();
 			c.setIdcliente(rs.getInt("idcliente"));
 			c.setNome(rs.getString("nome"));
-			c.setCpf(rs.getString("cpf"));
 			clientes.add(c);
 		}
 		return clientes;

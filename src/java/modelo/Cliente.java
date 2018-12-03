@@ -1,10 +1,18 @@
 package modelo;
 
+/**
+ * Representa um cliente 
+ * @author samuellucas97
+ *
+ */
 public class Cliente {
+	
+	/// ATRIBUTOS
 	
 	private int idCliente;
 	private String nome;
-	private String cpf;
+	
+	/// GETTERS E SETTERS
 	
 	public int getIdcliente() {
 		return idCliente;
@@ -22,11 +30,5 @@ public class Cliente {
 		this.nome = nome;
 	}
 
-	public String getCpf() {
-		return cpf;
-	}
 
-	public void setCpf(String cpf) {
-		this.cpf = cpf;
-	}
 }
