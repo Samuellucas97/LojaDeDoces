@@ -17,7 +17,7 @@ public class TelaPrincipal extends JFrame implements ActionListener{
 	
 	JMenuBar mnbar   = new JMenuBar();	
 	JMenu fileMenu   = new JMenu("Cadastros");
-	JMenu fileRels   = new JMenu("Relat�rios");
+	JMenu fileRels   = new JMenu("Relatórios");
 	JMenu exitMenu = new JMenu("Sair");
 	JMenuItem mItem1 = new JMenuItem("Clientes");
 	JMenuItem mItem2 = new JMenuItem("Contas");
@@ -40,7 +40,7 @@ public class TelaPrincipal extends JFrame implements ActionListener{
 		
 		setSize(800,600);
 		setResizable(false);
-		setTitle("Transa��es Banc�rias");
+		setTitle("Loja de Doces");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
 		// eventos
