@@ -25,5 +25,9 @@ Abaixo, encontra-se o diagrama de entidade-relacionamento (**DER**) modelado na 
 
 
 ## Autor  
-:copyright: IMD/UFRN 2018.   Samuel Lucas de Moura Ferino ( <samuellucas97@ufrn.edu.br> )
+
+
+| Nome: | Github: | email: |  
+| ---------- | ------------- | ------------- |
+|`Samuel Lucas de Moura Ferino` 	| https://github.com/Samuellucas97 |_samuellucas97@ufrn.edu.br_ 
 
